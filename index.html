@@ -82,7 +82,10 @@
 
     .cover-grid-bg {
       position: absolute;
-      inset: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background-image:
         linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
@@ -916,12 +919,46 @@
     ═══════════════════════════════════════════════ */
     @media print {
 
-      /* === COVER — fixed height fills one Letter page === */
+      /* === COVER — block layout prevents flex page-split === */
       .cover {
+        display: block;
         height: 11in;
         min-height: 0;
+        position: relative;
+        padding: 60px 80px;
         page-break-after: always;
-        overflow: visible;
+        page-break-inside: avoid;
+        overflow: hidden;
+      }
+      .cover-bottom {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      /* === GAP FALLBACKS (WeasyPrint ignores gap entirely) === */
+      .cover-logo-row img {
+        margin-right: 14px;
+      }
+      .cover-bottom .cover-stat {
+        margin-right: 50px;
+      }
+      .section-header .section-num {
+        margin-right: 28px;
+      }
+      .card-item .icon {
+        margin-right: 20px;
+      }
+      .card-list .card-item {
+        margin-bottom: 12px;
+      }
+      .tech-pills .tech-pill {
+        margin-right: 8px;
+        margin-bottom: 8px;
+      }
+      .cases-strip-header img {
+        margin-right: 20px;
       }
 
       /* === CONTENT PAGES — named page adds top/bottom margin === */
@@ -948,7 +985,7 @@
         page-break-inside: avoid;
       }
 
-      /* === BENTO GRID — float-based 3-column (most reliable) === */
+      /* === BENTO GRID — float-based 3-column === */
       .bento-grid {
         display: block !important;
         overflow: hidden;
@@ -964,39 +1001,43 @@
         margin-right: 0;
       }
 
-      /* === OTHER GRIDS → FLEXBOX === */
-
-      /* Cases row: 3 equal columns */
+      /* === OTHER GRIDS → FLEXBOX + margin fallback === */
       .cases-row {
         display: flex;
-        gap: 16px;
       }
       .case-card {
         flex: 1 1 0;
         min-width: 0;
+        margin-right: 16px;
+      }
+      .case-card:last-child {
+        margin-right: 0;
       }
 
-      /* Price row: 2 equal columns */
       .price-row {
         display: flex;
-        gap: 24px;
       }
       .price-card {
         flex: 1 1 0;
         min-width: 0;
+        margin-right: 24px;
+      }
+      .price-card:last-child {
+        margin-right: 0;
       }
 
-      /* Risk grid: 2 equal columns */
       .risk-grid {
         display: flex;
-        gap: 24px;
       }
       .risk-card {
         flex: 1 1 0;
         min-width: 0;
+        margin-right: 24px;
+      }
+      .risk-card:last-child {
+        margin-right: 0;
       }
 
-      /* Timeline: 3 horizontal steps */
       .timeline {
         display: flex;
       }
@@ -1018,13 +1059,20 @@
         padding: 60px;
       }
 
-      /* === CLOSING — fixed height fills one Letter page === */
+      /* === CLOSING — full last page, wider content === */
       .closing {
         height: 11in;
         min-height: 0;
-        overflow: visible;
+        overflow: hidden;
+        align-items: stretch;
         page-break-before: always;
         page-break-inside: avoid;
+      }
+      .closing-contact .closing-contact-item {
+        margin: 0 28px;
+      }
+      .closing-footer {
+        color: rgba(255,255,255,0.3);
       }
 
       .page:last-of-type {
