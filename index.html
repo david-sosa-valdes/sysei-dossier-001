@@ -907,41 +907,124 @@
     }
 
     /* ═══════════════════════════════════════════════
-       PRINT
+       PRINT — WeasyPrint-compatible overrides
     ═══════════════════════════════════════════════ */
     @media print {
+
+      /* === COVER — full first page === */
       .cover {
         height: 100vh;
+        min-height: 0;
         page-break-after: always;
+        overflow: visible;
       }
 
-      .page { padding: 60px 40px; }
+      /* === CONTENT PAGES === */
+      .page {
+        padding: 50px 50px;
+        max-width: none;
+      }
 
       .section {
-        margin-bottom: 50px;
-        page-break-inside: auto;
+        margin-bottom: 40px;
       }
 
       .section-header {
         page-break-after: avoid;
+        margin-bottom: 24px;
       }
 
-      .cases-strip,
-      .price-row,
-      .risk-grid,
-      .timeline,
-      .arch-flow,
-      .bento-grid {
+      .body-text {
+        page-break-after: avoid;
+      }
+
+      .card-item {
         page-break-inside: avoid;
       }
 
+      /* === GRID → FLEXBOX (WeasyPrint grid compat) === */
+
+      /* Bento grid: 3 columns × 2 rows */
+      .bento-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .bento-card {
+        flex: 0 0 calc(33.333% - 8px);
+      }
+
+      /* Cases row: 3 equal columns */
+      .cases-row {
+        display: flex;
+        gap: 16px;
+      }
+      .case-card {
+        flex: 1 1 0;
+        min-width: 0;
+      }
+
+      /* Price row: 2 equal columns */
+      .price-row {
+        display: flex;
+        gap: 24px;
+      }
+      .price-card {
+        flex: 1 1 0;
+        min-width: 0;
+      }
+
+      /* Risk grid: 2 equal columns */
+      .risk-grid {
+        display: flex;
+        gap: 24px;
+      }
+      .risk-card {
+        flex: 1 1 0;
+        min-width: 0;
+      }
+
+      /* Timeline: 3 horizontal steps */
+      .timeline {
+        display: flex;
+      }
+      .timeline-step {
+        flex: 1 1 0;
+        min-width: 0;
+      }
+
+      /* === PAGE BREAK CONTROL === */
+      .arch-flow,
+      .bento-grid,
+      .price-row,
+      .risk-grid,
+      .timeline {
+        page-break-inside: avoid;
+      }
+
+      .cases-strip {
+        page-break-inside: avoid;
+        padding: 60px;
+      }
+
+      /* === CLOSING — full last page === */
       .closing {
         height: 100vh;
+        min-height: 0;
+        overflow: visible;
         page-break-before: always;
         page-break-inside: avoid;
       }
 
-      .page:last-of-type { padding-bottom: 20px; }
+      .closing-footer {
+        position: relative;
+        bottom: auto;
+        margin-top: 80px;
+      }
+
+      .page:last-of-type {
+        padding-bottom: 20px;
+      }
     }
   </style>
 </head>
