@@ -11,7 +11,12 @@
 
     @page {
       size: Letter;
-      margin: 0in !important;
+      margin: 0;
+    }
+
+    @page content {
+      size: Letter;
+      margin: 40px 0;
     }
 
 
@@ -911,17 +916,18 @@
     ═══════════════════════════════════════════════ */
     @media print {
 
-      /* === COVER — full first page === */
+      /* === COVER — fixed height fills one Letter page === */
       .cover {
-        height: 100vh;
+        height: 11in;
         min-height: 0;
         page-break-after: always;
         overflow: visible;
       }
 
-      /* === CONTENT PAGES === */
+      /* === CONTENT PAGES — named page adds top/bottom margin === */
       .page {
-        padding: 50px 50px;
+        page: content;
+        padding: 10px 50px 20px;
         max-width: none;
       }
 
@@ -942,17 +948,23 @@
         page-break-inside: avoid;
       }
 
-      /* === GRID → FLEXBOX (WeasyPrint grid compat) === */
-
-      /* Bento grid: 3 columns × 2 rows */
+      /* === BENTO GRID — float-based 3-column (most reliable) === */
       .bento-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
+        display: block !important;
+        overflow: hidden;
+        margin-top: 28px;
       }
       .bento-card {
-        flex: 0 0 calc(33.333% - 8px);
+        float: left;
+        width: 32%;
+        margin-right: 2%;
+        margin-bottom: 12px;
       }
+      .bento-card:nth-child(3n) {
+        margin-right: 0;
+      }
+
+      /* === OTHER GRIDS → FLEXBOX === */
 
       /* Cases row: 3 equal columns */
       .cases-row {
@@ -995,7 +1007,6 @@
 
       /* === PAGE BREAK CONTROL === */
       .arch-flow,
-      .bento-grid,
       .price-row,
       .risk-grid,
       .timeline {
@@ -1007,19 +1018,13 @@
         padding: 60px;
       }
 
-      /* === CLOSING — full last page === */
+      /* === CLOSING — fixed height fills one Letter page === */
       .closing {
-        height: 100vh;
+        height: 11in;
         min-height: 0;
         overflow: visible;
         page-break-before: always;
         page-break-inside: avoid;
-      }
-
-      .closing-footer {
-        position: relative;
-        bottom: auto;
-        margin-top: 80px;
       }
 
       .page:last-of-type {
